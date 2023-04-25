@@ -30,16 +30,32 @@ $ java -jar target/spring-boot-web.jar
 
 1. Run `cert.sh`. It will create the server and client keystore, export the client cert, import the client cert into the server keystore and copy to the project resources directory.
 
-2. As before, run the Spring Boot application:
+2. The `application.yml` file has been modified so that web application expects the client to provide a certificate.
+```
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    client-auth: need
+    key-store: classpath:localhost.p12
+    key-store-password: changeit
+    key-alias: server
+    key-store-type: PKCS12
+    key-store-provider: SUN
+    trust-store: classpath:localhost.p12
+    trust-store-password: changeit
+    trust-store-type: PKCS12
+```    
+3. As before, run the Spring Boot application:
 ```
 mvn clean package
 java -jar target/spring-boot-web.jar -Djavax.net.debug=all
 ```
-3. Test with curl
+4. Test with curl
 ```
 curl -k --cert-type P12 --cert client.p12:changeit https://localhost:8443
 ```
-4. Other useful commands:
+5. Other useful commands:
 ```
 keytool -list -storetype PKCS12 -keystore localhost.p12
 keytool -v -printcert -file client.crt
