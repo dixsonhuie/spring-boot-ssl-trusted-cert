@@ -1,0 +1,16 @@
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    client-auth: need
+    key-store: classpath:localhost.p12
+    key-store-password: changeit
+    key-alias: server
+    key-store-type: PKCS12
+    key-store-provider: SUN
+    trust-store: classpath:localhost.p12
+    trust-store-password: changeit
+    trust-store-type: PKCS12
+
+# Spring Security
+# security.require-ssl=true
